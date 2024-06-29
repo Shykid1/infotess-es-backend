@@ -18,6 +18,11 @@ const candidateSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    electionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Election",
+      required: true,
+    },
   },
   { timestamps: true }
 );

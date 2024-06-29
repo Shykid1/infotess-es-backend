@@ -15,6 +15,10 @@ const voterSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    isVoted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

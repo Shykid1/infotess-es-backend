@@ -9,6 +9,7 @@ const electionSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      undefined: true,
     },
     description: {
       type: String,
