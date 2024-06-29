@@ -38,4 +38,14 @@ const verifyToken = (req, res, next) => {
   return jwt.verify(token, process.env.JWT_SECRET);
 };
 
-module.exports = { protect, verifyToken };
+// Admin Middleware
+const admin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authorized as an admin");
+  }
+};
+
+module.exports = { protect, verifyToken, admin };
