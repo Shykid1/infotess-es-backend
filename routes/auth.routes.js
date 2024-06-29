@@ -19,4 +19,4 @@ authRouter.post("/voter", protect, admin, createVoter);
 // Login
 authRouter.post("/login", login);
 
-module.exports = routes;
+module.exports = authRouter;
