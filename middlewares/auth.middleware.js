@@ -8,7 +8,7 @@ const protect = async (req, res, next) => {
   let token;
 
   if (
-    req.hearders.authorization &&
+    req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
@@ -38,6 +38,16 @@ const verifyToken = (req, res, next) => {
   return jwt.verify(token, process.env.JWT_SECRET);
 };
 
+// Authorization for Super Admin
+const superAuthorizer = async (req, res, next) => {
+  if (req.user && req.user.role === "Super") {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authorized as a super admin");
+  }
+};
+
 // Admin Middleware
 const admin = async (req, res, next) => {
   if (req.user && req.user.role === "Admin") {
@@ -58,4 +68,4 @@ const voter = (req, res, next) => {
   }
 };
 
-module.exports = { protect, verifyToken, admin, voter };
+module.exports = { protect, verifyToken, admin, voter, superAuthorizer };

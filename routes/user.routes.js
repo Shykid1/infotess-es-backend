@@ -1,5 +1,9 @@
 const userRouter = require("express").Router();
-const { protect, admin } = require("../middlewares/auth.middleware");
+const {
+  protect,
+  admin,
+  superAuthorizer,
+} = require("../middlewares/auth.middleware");
 const {
   getUsers,
   getUser,
@@ -32,19 +36,24 @@ userRouter.put("/:id", protect, admin, updateUser);
 userRouter.delete("/:id", protect, admin, deleteUser);
 
 // Get all Super Admins
-userRouter.get("/superadmins", protect, admin, getSuperAdmins);
+userRouter.get("/superadmins", protect, getSuperAdmins);
 
 // Get Super Admin by id
-userRouter.get("/superadmins/:id", protect, admin, getSuperAdmin);
+userRouter.get("/superadmins/:id", protect, getSuperAdmin);
 
 // Update Super Admin by id
-userRouter.put("/superadmins/:id", protect, admin, updateSuperAdmin);
+userRouter.put("/superadmins/:id", protect, superAuthorizer, updateSuperAdmin);
 
 // Delete Super Admin by id
-userRouter.delete("/superadmins/:id", protect, admin, deleteSuperAdmin);
+userRouter.delete(
+  "/superadmins/:id",
+  protect,
+  superAuthorizer,
+  deleteSuperAdmin
+);
 
 // Get all Admins
-userRouter.get("/admins", protect, admin, getAdmins);
+userRouter.get("/admins", protect, superAuthorizer, getAdmins);
 
 // Get Admin by id
 userRouter.get("/admins/:id", protect, admin, getAdmin);

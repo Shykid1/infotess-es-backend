@@ -40,12 +40,12 @@ exports.createSuperAdmin = async (req, res) => {
     // Store Super Admin details
     const superAdmin = await SuperAdmin.create({
       name,
-      user: newUser._id,
+      userId: newUser._id,
     });
 
     res.status(201).json(superAdmin);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create super admin" });
+    res.status(500).json({ error });
   }
 };
 
@@ -80,7 +80,7 @@ exports.createAdmin = async (req, res) => {
     // Store Admin details
     const admin = await Admin.create({
       name,
-      user: newUser._id,
+      userId: newUser._id,
     });
 
     res.status(201).json(admin);
