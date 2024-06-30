@@ -161,6 +161,36 @@ exports.login = async (req, res) => {
   }
 };
 
+// Voter login
+exports.voterLogin = async (req, res) => {
+  try {
+    const { studentId, password } = req.body;
+
+    // Check if voter with studentId is a user
+    const voter = await Voter.findOne({ studentId }).populate("user");
+
+    if (!voter) {
+      return res.status(400).json({ message: "Voter not found" });
+    }
+
+    // Check if the password is correct
+    const isMatch = await bcrypt.compare(password, voter.user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // Generate token
+    const token = jwt.sign({ id: voter.user._id }, process.env.JWT_SECRET, {
+      expiresIn: 300,
+    });
+
+    res.status(200).json({ token, voter });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to login" });
+  }
+};
+
 // Get users
 exports.getUsers = async (req, res) => {
   try {
