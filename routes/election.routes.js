@@ -2,7 +2,7 @@ const electionRouter = require("express").Router();
 const { protect, admin } = require("../middlewares/auth.middleware");
 const {
   createElection,
-  getElections,
+  getAllElections,
   getElectionById,
   updateElection,
   deleteElection,
@@ -12,7 +12,7 @@ const {
 electionRouter.post("/", protect, admin, createElection);
 
 // Get all Elections
-electionRouter.get("/", protect, admin, getElections);
+electionRouter.get("/", protect, admin, getAllElections);
 
 // Get an Election by ID
 electionRouter.get("/:id", protect, admin, getElectionById);

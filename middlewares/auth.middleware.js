@@ -39,8 +39,8 @@ const verifyToken = (req, res, next) => {
 };
 
 // Admin Middleware
-const admin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
+const admin = async (req, res, next) => {
+  if (req.user && req.user.role === "Admin") {
     next();
   } else {
     res.status(401);
@@ -48,4 +48,14 @@ const admin = (req, res, next) => {
   }
 };
 
-module.exports = { protect, verifyToken, admin };
+// Voter Middleware
+const voter = (req, res, next) => {
+  if (req.user && req.user.role === "Voter") {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authorized as a voter");
+  }
+};
+
+module.exports = { protect, verifyToken, admin, voter };
