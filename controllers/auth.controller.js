@@ -179,7 +179,6 @@ exports.voterLogin = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-    
 
     // Generate token
     const token = jwt.sign({ id: voter.user._id }, process.env.JWT_SECRET, {
