@@ -127,7 +127,7 @@ exports.createVoter = async (req, res) => {
 
     res.status(201).json(voter);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ error: "Failed to create Something" });
   }
 };
 
@@ -167,27 +167,27 @@ exports.voterLogin = async (req, res) => {
     const { studentId, password } = req.body;
 
     // Check if voter with studentId is a user
-    const voter = await Voter.findOne({ studentId }).populate("user");
+    const voter = await Voter.findOne({ studentId }).populate("userId").exec();
 
     if (!voter) {
       return res.status(400).json({ message: "Voter not found" });
     }
 
     // Check if the password is correct
-    const isMatch = await bcrypt.compare(password, voter.user.password);
+    const isMatch = await bcrypt.compare(password, voter.userId.password);
 
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Generate token
-    const token = jwt.sign({ id: voter.user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: voter._id }, process.env.JWT_SECRET, {
       expiresIn: 300,
     });
 
     res.status(200).json({ token, voter });
   } catch (error) {
-    res.status(500).json({ error: "Failed to login" });
+    res.status(500).json({ error });
   }
 };
 

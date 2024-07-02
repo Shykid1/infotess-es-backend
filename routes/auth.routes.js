@@ -9,6 +9,7 @@ const {
   createAdmin,
   createVoter,
   login,
+  voterLogin,
 } = require("../controllers/auth.controller");
 
 // Create a new SuperAdmin
@@ -18,9 +19,12 @@ authRouter.post("/superadmin", createSuperAdmin);
 authRouter.post("/admin", protect, superAuthorizer, createAdmin);
 
 // Create a new Voter
-authRouter.post("/voter", protect, admin, createVoter);
+authRouter.post("/voter", protect, createVoter);
 
 // Login
 authRouter.post("/login", login);
+
+// Voter Login
+authRouter.post("/voter/login", voterLogin);
 
 module.exports = authRouter;
