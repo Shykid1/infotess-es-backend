@@ -92,7 +92,7 @@ exports.createAdmin = async (req, res) => {
 // Create a new Voter
 exports.createVoter = async (req, res) => {
   try {
-    const { image, name, email, password, role, studentId } = req.body;
+    const { name, email, password, role, studentId } = req.body;
 
     // Check if role is voter
     if (role !== "Voter") {
@@ -119,15 +119,15 @@ exports.createVoter = async (req, res) => {
 
     // Store Voter details
     const voter = await Voter.create({
-      image,
       name,
       studentId,
-      user: newUser._id,
+      userId: newUser._id,
+      isVoted: false,
     });
 
     res.status(201).json(voter);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create Voter" });
+    res.status(500).json(error);
   }
 };
 
