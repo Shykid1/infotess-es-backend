@@ -20,6 +20,7 @@ const protect = async (req, res, next) => {
 
       // Find user with id and attach request object
       req.user = await User.findById(decoded.id).select("-password");
+
       next();
     } catch (error) {
       console.error(error);
