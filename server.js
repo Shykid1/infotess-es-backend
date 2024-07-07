@@ -4,6 +4,13 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const dbConnect = require("./utils/dbConnect");
 
+const adminRoutes = require("./routes/admin.routes");
+const candidateRoutes = require("./routes/candidate.routes");
+const electionRoutes = require("./routes/election.routes");
+const voterRoutes = require("./routes/voter.routes");
+const userRoutes = require("./routes/user.routes");
+const voteRoutes = require("./routes/vote.routes");
+
 dotenv.config();
 
 // Connect to MongoDB
@@ -19,10 +26,11 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-app.use("/api/v1/auth", require("./routes/auth.routes"));
-app.use("/api/v1/user", require("./routes/user.routes"));
-app.use("/api/v1/candidate", require("./routes/candidate.routes"));
-app.use("/api/v1/election", require("./routes/election.routes"));
-app.use("/api/v1/vote", require("./routes/vote.routes"));
+app.use("/api", adminRoutes);
+app.use("/api", candidateRoutes);
+app.use("/api", electionRoutes);
+app.use("/api", voterRoutes);
+app.use("/api", userRoutes);
+app.use("/api", voteRoutes);
 
 app.listen(port, () => console.log(`Server started on PORT: ${port}`));

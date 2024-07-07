@@ -1,8 +1,9 @@
-const voteRouter = require("express").Router();
-const { protect, voter } = require("../middlewares/auth.middleware");
-const { vote } = require("../controllers/vote.controller");
+// routes/vote.routes.js
+const express = require("express");
+const voteController = require("../controllers/vote.controller");
+const authenticate = require("../middlewares/auth.middleware");
+const router = express.Router();
 
-// Create a new Vote
-voteRouter.post("/", protect, voter, vote);
+router.post("/vote", authenticate, voteController.vote);
 
-module.exports = voteRouter;
+module.exports = router;
